@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionDialogButton: Button
     private lateinit var customDialogButton: Button
     private lateinit var closedButton: Button
+    private lateinit var showDialogFragment: Button
+    private lateinit var usernameEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,17 +24,22 @@ class MainActivity : AppCompatActivity() {
         standardDialogButton = findViewById(R.id.standard_dialog_button)
         actionDialogButton = findViewById(R.id.action_dialog_button)
         customDialogButton = findViewById(R.id.custom_dialog_button)
+        showDialogFragment = findViewById(R.id.sign_up_button)
+
 
 
         standardDialogButton.setOnClickListener {
             standardDialog()
         }
-
         actionDialogButton.setOnClickListener {
             actionDialog()
         }
         customDialogButton.setOnClickListener {
             customDialog()
+        }
+        showDialogFragment.setOnClickListener {
+            val alertDialogFragment = AlertDialogFragment()
+            alertDialogFragment.show(supportFragmentManager, "Alert Dialog Fragment")
         }
     }
 
@@ -68,12 +76,12 @@ class MainActivity : AppCompatActivity() {
     private fun customDialog(){
 
         val view = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null, false)
-        closedButton = view.findViewById(R.id.closed_button)
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setView(view)
 
         val dialog = dialogBuilder.create()
-
+        usernameEditText = view.findViewById(R.id.username_edit_text)
+        closedButton = view.findViewById(R.id.closed_button)
         closedButton.setOnClickListener {
             Toast.makeText(this, "Custom Dialog Closed", Toast.LENGTH_LONG).show()
             dialog.dismiss()
